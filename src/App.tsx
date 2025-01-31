@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Kuroshiro from 'kuroshiro';
 import { BrowserKuromojiAnalyzer } from './BrowserKuromojiAnalyzer.ts';
 import { SaveHistory } from './components/SaveHistory';
@@ -152,15 +152,15 @@ function App() {
             />
           </div>
 
-          <div className="flex gap-4 items-center">
+          <div className="flex flex-wrap gap-2 sm:gap-4 items-center">
             <select
               className="p-2 border rounded-md"
               value={conversionType}
               onChange={(e) => setConversionType(e.target.value)}
             >
-              <option value="hiragana">Hiragana</option>
-              <option value="katakana">Katakana</option>
-              <option value="romaji">Romaji</option>
+              <option value="hiragana">平假名 Hiragana</option>
+              <option value="katakana">片假名 Katakana</option>
+              <option value="romaji">ローマ字 Romaji</option>
             </select>
 
             <select
@@ -168,10 +168,10 @@ function App() {
               value={conversionMode}
               onChange={(e) => setConversionMode(e.target.value)}
             >
-              <option value="normal">Normal</option>
-              <option value="furigana">Furigana</option>
-              <option value="okurigana">Okurigana</option>
-              <option value="spaced">Spaced</option>
+              <option value="normal">一般 Normal</option>
+              <option value="furigana">振假名 Furigana</option>
+              <option value="okurigana">送り仮名 Okurigana</option>
+              <option value="spaced">スペース Spaced</option>
             </select>
 
             <button
@@ -182,7 +182,7 @@ function App() {
               {isLoading ? 'Converting...' : 'Convert'}
             </button>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <button
                 onClick={speakText}
                 disabled={!inputText || isSpeaking}
@@ -214,7 +214,7 @@ function App() {
                 dangerouslySetInnerHTML={{ __html: convertedText }}
               />
 
-              <div className="mt-4 flex gap-4">
+              <div className="mt-4 flex flex-wrap gap-2 sm:gap-4">
                 <button
                   onClick={copyAsHTML}
                   className={`px-4 py-2 text-white rounded-md disabled:opacity-50 transition-colors
@@ -247,6 +247,9 @@ function App() {
         savedItems={savedItems}
         onDelete={handleDelete}
       />
+      <div className="fixed bottom-4 w-full text-center text-gray-600">
+        Ⓒ Hsieh-Ting Lin made with ❤️
+      </div>
     </div>
   );
 }

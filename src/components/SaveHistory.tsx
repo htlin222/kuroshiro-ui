@@ -42,9 +42,10 @@ export const SaveHistory: React.FC<SaveHistoryProps> = ({
                 <div className="text-sm text-gray-500 mb-1">
                   {new Date(item.timestamp).toLocaleString()}
                 </div>
-                <div className="text-gray-700 whitespace-pre-wrap break-words">
-                  {item.content}
-                </div>
+                <div 
+                  className="text-gray-700 whitespace-pre-wrap break-words"
+                  dangerouslySetInnerHTML={{ __html: item.content }}
+                />
               </div>
               <div className="flex gap-2 flex-shrink-0">
                 <button

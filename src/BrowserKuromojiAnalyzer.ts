@@ -17,7 +17,7 @@ interface Token {
 export class BrowserKuromojiAnalyzer {
   private tokenizer: any = null;
 
-  constructor(options: { dicPath?: string } = {}) {
+  constructor() {
     this.tokenizer = null;
   }
 
