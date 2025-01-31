@@ -25,6 +25,8 @@ function App() {
     const saved = localStorage.getItem('savedItems');
     return saved ? JSON.parse(saved) : [];
   });
+  const [selectedText, setSelectedText] = useState('');
+  const [showDictDialog, setShowDictDialog] = useState(false);
 
   useEffect(() => {
     const initialize = async () => {
@@ -154,7 +156,7 @@ function App() {
 
           <div className="flex flex-wrap gap-2 sm:gap-4 items-center">
             <select
-              className="p-2 border rounded-md"
+              className="p-3 border rounded-md"
               value={conversionType}
               onChange={(e) => setConversionType(e.target.value)}
             >
@@ -164,7 +166,7 @@ function App() {
             </select>
 
             <select
-              className="p-2 border rounded-md"
+              className="p-3 border rounded-md"
               value={conversionMode}
               onChange={(e) => setConversionMode(e.target.value)}
             >
@@ -205,15 +207,30 @@ function App() {
           </div>
 
           {convertedText && (
-            <div className="mt-6">
+            <div className="mt-6 relative">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Converted Text
               </label>
               <div 
                 className="p-4 bg-gray-50 rounded-md min-h-[100px] break-words"
                 dangerouslySetInnerHTML={{ __html: convertedText }}
+                onMouseUp={(e) => {
+                  const selection = window.getSelection();
+                  if (selection && selection.toString().trim()) {
+                    setSelectedText(selection.toString().trim());
+                  } else {
+                    setSelectedText('');
+                  }
+                }}
               />
-
+              {selectedText && (
+                <button
+                  onClick={() => setShowDictDialog(true)}
+                  className="absolute right-2 top-12 px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600 shadow-lg"
+                >
+                  Search Dict
+                </button>
+              )}
               <div className="mt-4 flex flex-wrap gap-2 sm:gap-4">
                 <button
                   onClick={copyAsHTML}
@@ -247,7 +264,26 @@ function App() {
         savedItems={savedItems}
         onDelete={handleDelete}
       />
-      <div className="fixed bottom-4 w-full text-center text-gray-600">
+      {showDictDialog && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-4 w-[80vw] h-[80vh] relative">
+            <button
+              onClick={() => setShowDictDialog(false)}
+              className="absolute right-4 top-4 text-gray-500 hover:text-gray-700"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <iframe
+              src={`https://dict.asia/jc/${encodeURIComponent(selectedText)}`}
+              className="w-full h-full mt-2"
+              title="Dict Asia"
+            />
+          </div>
+        </div>
+      )}
+      <div className="fixed bottom-3 right-3 text-center text-sm text-white bg-gray-600 py-2 px-5 rounded-full">
         Ⓒ Hsieh-Ting Lin made with ❤️
       </div>
     </div>
