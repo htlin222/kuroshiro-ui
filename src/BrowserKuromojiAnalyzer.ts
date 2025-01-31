@@ -1,4 +1,4 @@
-interface Token {
+export interface Token {
   word_id: number;
   word_type: string;
   word_position: number;
@@ -37,34 +37,33 @@ export class BrowserKuromojiAnalyzer {
       });
     }
 
-    // Initialize tokenizer
+    // Initialize tokenizer with the default dictionary from CDN
     const kuromoji = (window as any).kuromoji;
-    this.tokenizer = await new Promise((resolve, reject) => {
-      kuromoji.builder({ dicPath: 'https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/dict/' })
-        .build((err: Error | null, tokenizer: any) => {
+    try {
+      this.tokenizer = await new Promise((resolve, reject) => {
+        kuromoji.builder({ 
+          dicPath: 'https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/dict'  // 使用 CDN 中的預設字典
+        }).build((err: Error | null, tokenizer: any) => {
           if (err) {
+            console.error('Tokenizer build error:', err);
             reject(err);
           } else {
             resolve(tokenizer);
           }
         });
-    });
+      });
+    } catch (error) {
+      console.error('Tokenizer initialization error:', error);
+      throw error;
+    }
 
     return this;
   }
 
-  parse(text: string): Promise<Token[]> {
-    return new Promise((resolve, reject) => {
-      try {
-        if (!this.tokenizer) {
-          reject(new Error('Tokenizer not initialized'));
-          return;
-        }
-        const tokens = this.tokenizer.tokenize(text);
-        resolve(tokens);
-      } catch (error) {
-        reject(error);
-      }
-    });
+  async parse(text: string): Promise<Token[]> {
+    if (!this.tokenizer) {
+      await this.init();
+    }
+    return this.tokenizer.tokenize(text);
   }
 }

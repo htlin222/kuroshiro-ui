@@ -1,0 +1,24 @@
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cross-Origin-Embedder-Policy = "require-corp"
+    Cross-Origin-Opener-Policy = "same-origin"
+
+[[headers]]
+  for = "/kuromoji-worker.js"
+  [headers.values]
+    Content-Type = "text/javascript"
+    Cross-Origin-Resource-Policy = "cross-origin"
+
+[[headers]]
+  for = "/dict/*.gz"
+  [headers.values]
+    Content-Type = "application/gzip"
+    Content-Encoding = "gzip"
+    Cross-Origin-Resource-Policy = "cross-origin"
+
+[[redirects]]
+  from = "/cdn.jsdelivr.net/*"
+  to = "https://cdn.jsdelivr.net/:splat"
+  status = 200
+  force = true
