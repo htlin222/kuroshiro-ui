@@ -214,7 +214,7 @@ function App() {
               <div 
                 className="p-4 bg-gray-50 rounded-md min-h-[100px] break-words"
                 dangerouslySetInnerHTML={{ __html: convertedText }}
-                onMouseUp={(e) => {
+                onMouseUp={() => {
                   const selection = window.getSelection();
                   if (selection && selection.toString().trim()) {
                     setSelectedText(selection.toString().trim());
