@@ -1,3 +1,7 @@
+![GitHub stars](https://img.shields.io/github/stars/htlin222/kuroshiro-ui?style=flat-square)
+![Last commit](https://img.shields.io/github/last-commit/htlin222/kuroshiro-ui?style=flat-square)
+![License](https://img.shields.io/github/license/htlin222/kuroshiro-ui?style=flat-square)
+
 # Japanese Text Converter
 
 A modern web application for converting Japanese text between different writing systems with additional features like text-to-speech and save history.
